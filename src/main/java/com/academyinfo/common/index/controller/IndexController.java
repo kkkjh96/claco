@@ -48,7 +48,7 @@ public class IndexController {
         for (ClassFilesResponseDto dto : listImage) {
         	String [] str = dto.getPath().split(File.separator + File.separator);
         	
-        	imageList.add("/" + str[4] + "/" + str[5] + "/" + str[6]);
+        	imageList.add(str[4] + "/" + str[5] + "/" + str[6]);
         }
 		
 		/*수강후기*/
