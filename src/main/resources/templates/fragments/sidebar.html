@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8">
+<title>마이페이지 사이드바</title>
+</head>
+
+<!-- 사이드바(마이페이지에만 적용) -->
+<div th:fragment="sidebar">
+		<!-- 사이드바에 적용된 CSS -->
+		<th:block layout:fragment="css">
+		 <link rel="stylesheet" href="/css/sidebar.css" />
+		</th:block>
+	 <div id="wrap">
+        <div id="sidebar">
+            <h3 class="my_top">
+                <a th:href="@{/user/mypage}">MY PAGE</a>
+            </h3>
+            
+            <div id="my_info_container">
+                <ul class="my_info">
+               		<li sec:authorize="isAuthenticated()"><a th:href="@{/user/userArticleList}">내가 쓴 글</a></li>
+               		
+					<li sec:authorize="hasRole('ROLE_MEMBER')"><a th:href="@{/favorite/userClassList}">나의 강의목록</a></li>
+					<li sec:authorize="hasRole('ROLE_COMPANY')"><a th:href="@{/user/cpnClassList}">등록강의</a></li>
+
+					<li><a th:href="@{/user/info}">회원정보수정</a></li> 
+                </ul>                
+            </div>
+        </div>
+    </div>
+</div>
+</html>

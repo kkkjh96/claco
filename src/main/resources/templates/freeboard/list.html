@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 목록</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+    <style>
+    </style>
+    <script>
+        
+    </script>
+</head>
+<body>
+	<!-- layout -->
+    <div layout:fragment="content">
+	    <!-- Body -->
+	    <div class="container">
+		    <table class="table table-hover">
+		        <thead>
+		            <!-- 게시판 분류-->
+		            <tr class="text-center">
+		                <th style="width:10%">번호</th>
+		                <th style="width:30%">제목</th>
+		                <th style="width:20%">작성자</th>
+		                <th style="width:25%">작성일</th>
+		                <th style="width:15%">조회수</th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		        <!-- Contents -->
+		        <!-- 반복문으로 게시판 글을 반복해서 보여줌-->
+			    	<tr th:each="freeboard : ${boardList}" class="text-center">
+						<td>
+							<span th:text="${freeboard.fbindex}"></span>
+						</td>
+			            <td>
+				            <a th:href="@{'/freeboard/post/' + ${freeboard.fbindex}}">
+				                <span th:text="${freeboard.title}"></span>
+				            </a>
+			            </td>
+			            <td>
+			                <span th:text="${freeboard.mid}"></span>
+			            </td>
+			            <td>
+			                <span th:text="${#temporals.format(freeboard.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+			            </td>
+			            
+			            <td>
+			                <span th:text="${#numbers.formatInteger(freeboard.count, 1)}"></span>
+			            </td>
+			        </tr>
+		        </tbody>
+		    </table>
+			
+			<a sec:authorize="isAuthenticated()" class="btn btn-default float-right" th:href="@{/freeboard/post}">글쓰기</a>
+	    	<a sec:authorize="isAnonymous()" class="btn btn-default float-right" th:href="@{/user/login}">글쓰기</a>
+
+		    <!-- 페이징 기능 -->
+		    
+			<div class="paging text-center" th:if="${keyword}!=null" >
+					<span th:if="${prev} != -1">
+						<a th:href="@{'/freeboard/search?filter='+ ${filter} + '&keyword=' + ${keyword} + '&page=' + ${#numbers.formatInteger(prev, 1)}}">
+							<img src = "/img/temp/left_arrow.png" alt="왼쪽 화살표" height="28" width="28">
+						</a>
+					</span>
+					<span th:each="pageNum : ${pageList}" th:inline="text">
+						<a th:if="${pageNum} == ${currentPage}" class="currentPage" th:href="@{'/freeboard/search?filter='+ ${filter} + '&keyword=' + ${keyword} + '&page=' + ${pageNum}}">[[${pageNum}]]</a>
+						<a th:unless="${pageNum} == ${currentPage}" th:href="@{'/freeboard/search?filter='+ ${filter} + '&keyword=' + ${keyword} + '&page=' + ${pageNum}}">[[${pageNum}]]</a>
+					</span>
+					<span th:if="${next} != -1">
+						<a th:href="@{'/freeboard/search?filter='+ ${filter} + '&keyword=' + ${keyword} + '&page=' + ${#numbers.formatInteger(next, 1)}}">
+							<img src = "/img/temp/right_arrow.png" alt="오른쪽 화살표" height="28" width="28">
+						</a>
+					</span>
+			</div>
+			<div th:unless="${keyword}!=null" class="paging text-center">
+					<span th:if="${prev} != -1">
+						<a th:href="@{'/freeboard/?page=' + ${#numbers.formatInteger(prev, 1)}}">
+							<img src = "/img/temp/left_arrow.png" alt="왼쪽 화살표" height="28" width="28">
+						</a>
+					</span>
+					<span th:each="pageNum : ${pageList}" th:inline="text">
+						<a th:if="${pageNum} == ${currentPage}" class="currentPage" th:href="@{'/freeboard/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+						<a th:unless="${pageNum} == ${currentPage}" th:href="@{'/freeboard/?page=' + ${pageNum}}">[[${pageNum}]]</a>
+					</span>
+					
+					<span th:if="${next} != -1">
+						<a th:href="@{'/freeboard/?page=' + ${#numbers.formatInteger(next, 1)}}">
+							<img src = "/img/temp/right_arrow.png" alt="오른쪽 화살표" height="28" width="28">
+						</a>
+					</span>
+			</div>
+		
+			
+		
+		    <!-- 검색창 -->
+			<div class="searchtable text-center">
+			    <form action="/freeboard/search" method="get">
+			        <div class="list">
+			        	<select class="form-control col-sm-2" name="filter" th:if="${filter}!=null">
+			        		<option value="title" th:selected="${filter}=='title'">제목</option>
+			        		<option value="contents" th:selected="${filter}=='contents'">내용</option>
+			        		<option value="writer" th:selected="${filter}=='writer'">작성자</option>
+			        	</select>
+			        	<select class="form-control col-sm-2" name="filter" th:unless="${filter}!=null">
+			        		<option value="title">제목</option>
+			        		<option value="contents">내용</option>
+			        		<option value="writer">작성자</option>
+			        	</select>
+			            <input class="form-control col-sm-4" name="keyword" type="text" value="" placeholder="검색어를 입력해주세요.">
+			            <button class="btn btn-default">검색하기</button>
+					</div>
+			    </form>
+			    
+			    
+			</div>
+			<br>
+	    </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>

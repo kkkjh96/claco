@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>검색 결과</title>
+<link rel="stylesheet" href="/css/clacoClass.css">
+<style>
+
+	.paging
+	{
+		font-size: 25px;
+		margin-bottom: 20px;
+		
+	}
+	.paging span a:hover{
+		color: blue;
+		text-decoration: none;
+	}
+   	.currentPage {
+		color: black;
+	}
+	.best_class_title
+	{
+		margin: 30px 0;
+		width: 1300px;
+		height: 60px;
+		line-height: 60px;
+		text-align: center;
+		background-color: rgb(67, 93, 211);
+		border-radius: 5px;
+		font-size: 24px;
+		color: #fff;
+	}
+</style>
+</head>
+<body>
+	<div layout:fragment="content">
+			<!-- 강의리스트카드 -->
+			<div class="best_class">
+				<div class="best_class_title">전체강의</div>
+				<div class ="card" th:each="listFilter : ${listFilter}" style="cursor:pointer" th:onclick="|location.href='@{'/claco/post/' + ${listFilter.cindex}}'|" >
+					<img th:src="${listImg.get(listFilterStat.index)}" class="resize_img">
+					<div class = "c_name" ><h2 th:text = "${listFilter.name}"></h2></div>
+					<hr>
+					<div class = "c_info">
+						<p class="c_category" th:text = "${listFilter.category}"></p>
+						<div class="c_score">
+							<div class="wrap-star">
+		    				<div class='star-rating'>
+			       					<span th:style="|width: ${listFilter.score*20}%|"></span>
+			    			</div>
+							</div>
+						</div>
+					</div>
+					<div class = "c_info2">
+						<div class="c_period">
+							<div class =" c_Speriod" th:text = "${listFilter.startperiod + ' / '}"></div>
+				          	<div class =" c_Eperiod" th:text = "${listFilter.endperiod}"></div>
+						</div>
+					</div>
+					<hr>
+					<div class = "c_info3">
+						<div class="price">
+							<img class="money" src = "/img/temp/돈.png" alt="돈이미지" >
+							<div class="c_price" th:text = "${#numbers.formatInteger(listFilter.price, 0,'COMMA')}"></div>
+						</div>
+						<div class="name" th:text = "${listFilter.aname}">학원이름</div>
+						<div class="medal" >
+							<div th:if ="${listFilter.agrade} >= 4000">
+								<img src = "/img/temp/마스터.png" alt="등급이미지_마스터" >
+			          		</div>
+			          		<div th:if ="${listFilter.agrade} >= 3000 and ${listFilter.agrade} < 4000">
+			          			<img src = "/img/temp/플래티넘.png" alt="등급이미지_플래티넘" >
+			          		</div>
+			          		<div th:if ="${listFilter.agrade} >= 2000 and ${listFilter.agrade} < 3000">
+			          			<img src = "/img/temp/골드.png" alt="등급이미지_골드" >
+			          		</div>
+			          		<div th:if ="${listFilter.agrade} >= 1000 and ${listFilter.agrade} < 2000">
+			          			<img src = "/img/temp/실버.png" alt="등급이미지_실버" >
+			          		</div>
+			          		<div th:if ="${listFilter.agrade} >= 0 and ${listFilter.agrade} < 1000">
+			          			<img src = "/img/temp/브론즈.png" alt="등급이미지_브론즈" >
+			          		</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+			<!-- //강의리스트카드 -->
+	    	<!-- 페이징 기능 -->
+		    <div class ="paging" align="center">
+		    	<div th:if="${keyword}!=null" class="center">
+					<span th:if="${prev} != -1">
+						<a th:href="@{'/claco/search?' + '&keyword=' + ${keyword} +'&arr_location=' + ${filter} + '&page=' + ${#numbers.formatInteger(prev, 1)}}">
+							<img src = "/img/left_arrow.png" alt="왼쪽화살표" height="28" width="28">
+						</a>
+					</span>
+			    	<span th:each="pageNum : ${pageList}" th:inline="text">
+						<a th:if="${pageNum} == ${currentPage}" class="currentPage" th:href="@{'/claco/search?' + '&keyword=' + ${keyword} +'&arr_location=' + ${filter} + '&page=' + ${pageNum}}">[[${pageNum}]]</a>
+						<a th:unless="${pageNum} == ${currentPage}" th:href="@{'/claco/search?' + '&keyword=' + ${keyword} +'&arr_location=' + ${filter} + '&page=' + ${pageNum}}">[[${pageNum}]]</a>
+			    	</span>
+			    	<span th:if="${next} != -1">
+			    		<a th:href="@{'/claco/search?' + '&keyword=' + ${keyword} +'&arr_location=' + ${filter} + '&page=' + ${#numbers.formatInteger(next, 1)}}">
+			    			<img src = "/img/right_arrow.png" alt="오른쪾화살표" height="28" width="28">
+			    		</a>
+			    	</span>
+				</div>
+				<div th:unless="${keyword}!=null" class="center">
+					<span th:if="${prev} != -1">
+						<a th:href="@{'/claco/search?' + '&keyword=' + '&arr_location=' + ${filter} + '&page=' + ${#numbers.formatInteger(prev, 1)}}">
+							<img src = "/img/left_arrow.png" alt="왼쪽화살표" height="28" width="28">
+						</a>
+					</span>
+					
+					<span th:each="pageNum : ${pageList}" th:inline="text">
+						<a th:if="${pageNum} == ${currentPage}" class="currentPage" th:href="@{'/claco/search?' + '&keyword=' +'&arr_location=' + ${filter} +?page=' + ${pageNum}}">[[${pageNum}]]</a>
+						<a th:unless="${pageNum} == ${currentPage}" th:href="@{'/claco/search?' + '&keyword=' +'&arr_location=' + ${filter} + '&page=' + ${pageNum}}">[[${pageNum}]]</a>
+					</span>
+					
+					<span th:if="${next} != -1">
+						<a th:href="@{'/claco/search?' + '&keyword=' + '&arr_location=' + ${filter} + '&page=' + ${#numbers.formatInteger(next, 1)}}">
+							<img src = "/img/right_arrow.png" alt="오른쪾화살표" height="28" width="28">
+						</a>
+					</span>
+				</div>
+		    </div>
+		    <!-- //페이징 기능 -->
+			<!--  
+			<table border="1" align="center" width="80%">
+		        <tr align="center" bgcolor="lightgreen">
+		            <td><b>사진</b></td>
+		            <td><b>강의명</b></td>
+		            <td><b>키워드</b></td>
+		            <td><b>강의기간(시작)</b></td>
+		            <td><b>강의기간(끝)</b></td>
+		            <td><b>강의평점</b></td>
+		            <td><b>금액</b></td>
+		            <td><b>학원</b></td>
+		            <td><b>지역</b></td>
+		        </tr>
+		        <tr align="center" th:each = "listFilter : ${listFilter}">
+		            <td ><img th:src="${listImg.get(listFilterStat.index)}" class="resize_img"></td>
+		            <td>
+		            	<a th:href="@{'/claco/post/' + ${listFilter.cindex}}" >
+		            		<span th:text ="${listFilter.name}"></span>
+		            	</a>
+		            </td>
+		            <td th:text ="${listFilter.category}"></td>
+		            <td th:text ="${listFilter.startperiod}"></td>
+		            <td th:text ="${listFilter.endperiod}"></td>
+		            <td th:text ="${#numbers.formatDecimal(listFilter.score, 1, 2)}"></td>
+		            <td th:text ="${#numbers.formatInteger(listFilter.price, 1)}"></td>
+		            <td th:text ="${listFilter.aname}"></td>
+		            <td th:text ="${listFilter.alocation}"></td>
+		        </tr>
+	    	</table>
+		    
+			<div th:if="${keyword}!=null" class="center">
+				<span th:if="${prev} != -1">
+					<a th:href="@{'/claco/search?' + '&keyword=' + ${keyword} +'&arr_location=' + ${filter} + '&page=' + ${#numbers.formatInteger(prev, 1)}}"><<</a>
+				</span>
+		    	<span th:each="pageNum : ${pageList}" th:inline="text">
+					<a th:if="${pageNum} == ${currentPage}" class="currentPage" th:href="@{'/claco/search?' + '&keyword=' + ${keyword} +'&arr_location=' + ${filter} + '&page=' + ${pageNum}}">[[${pageNum}]]</a>
+					<a th:unless="${pageNum} == ${currentPage}" th:href="@{'/claco/search?' + '&keyword=' + ${keyword} +'&arr_location=' + ${filter} + '&page=' + ${pageNum}}">[[${pageNum}]]</a>
+		    	</span>
+		    	<span th:if="${next} != -1">
+		    		<a th:href="@{'/claco/search?' + '&keyword=' + ${keyword} +'&arr_location=' + ${filter} + '&page=' + ${#numbers.formatInteger(next, 1)}}">>></a>
+		    	</span>
+			</div>
+			<div th:unless="${keyword}!=null" class="center">
+				<span th:if="${prev} != -1">
+					<a th:href="@{'/claco/search?' + '&keyword=' + '&arr_location=' + ${filter} + '&page=' + ${#numbers.formatInteger(prev, 1)}}"><<</a>
+				</span>
+				
+				<span th:each="pageNum : ${pageList}" th:inline="text">
+					<a th:if="${pageNum} == ${currentPage}" class="currentPage" th:href="@{'/claco/search?' + '&keyword=' +'&arr_location=' + ${filter} +?page=' + ${pageNum}}">[[${pageNum}]]</a>
+					<a th:unless="${pageNum} == ${currentPage}" th:href="@{'/claco/search?' + '&keyword=' +'&arr_location=' + ${filter} + '&page=' + ${pageNum}}">[[${pageNum}]]</a>
+				</span>
+				
+				<span th:if="${next} != -1">
+					<a th:href="@{'/claco/search?' + '&keyword=' + '&arr_location=' + ${filter} + '&page=' + ${#numbers.formatInteger(next, 1)}}">>></a>
+				</span>
+			</div>
+			-->
+	    </div>
+</body>
+</html>

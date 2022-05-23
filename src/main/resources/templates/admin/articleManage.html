@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>게시글 관리 페이지</title>
+<link rel="stylesheet" href="/css/articleManage.css">
+<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+	$(document).ready(function(){
+		
+		$('ul.tabs li').click(function(){
+			var tab_id = $(this).attr('data-tab');
+	
+			$('ul.tabs li').removeClass('current');
+			$('.tab-content').removeClass('current');
+	
+			$(this).addClass('current');
+			$("#"+tab_id).addClass('current');
+		})
+	
+	});
+</script>
+</head>
+<body>
+	<div layout:fragment="content">
+		
+		<div class="container">
+			<h1> 신고 관리</h1>
+			<hr>
+			<!-- 탭 메뉴 상단 시작 -->
+			<ul class="tabs">
+				<li class="tab-link current" data-tab="tab-1">게시글 관리</li>
+				<li class="tab-link" data-tab="tab-2">댓글 관리</li>
+				<li class="tab-link" data-tab="tab-3">수강후기 관리</li>
+			</ul>
+			<!-- 탭 메뉴 상단 끝 -->
+			<!-- 탭 메뉴 내용 시작 -->
+			<div class="report_tab">
+				<div id="tab-1" class="tab-content current">
+					<h2> 신고가 누적된 <span style="color: rgb(103, 162, 218); font-size: 18px;">게시글</span>입니다. </h2>
+				    <table>
+				        <thead>
+				            <!-- 게시판 분류-->
+				            <tr>
+				                <th style="width:10%">번호</th>
+				                <th style="width:20%">제목</th>
+				                <th style="width:15%">작성자</th>
+				                <th style="width:15%">작성일</th>
+				                <th style="width:15%">조회수</th>
+				                <th style="width:15%">신고수</th>
+				                <th style="width:10%"></th>
+				            </tr>
+				        </thead>
+		        		<tbody>
+		        		<!-- Contents -->
+		        		<!-- 반복문으로 게시판 글을 반복해서 보여줌-->
+			    			<tr th:each="freeboard : ${boardList}">
+								<td>
+									<span th:text="${freeboard.fbindex}"></span>
+								</td>
+			            		<td>
+				            		<a th:href="@{'/freeboard/post/' + ${freeboard.fbindex}}">
+				                		<span th:text="${freeboard.title}"></span>
+				            		</a>
+			            		</td>
+					            <td>
+					                <span th:text="${freeboard.mid}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#temporals.format(freeboard.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#numbers.formatInteger(freeboard.count, 1)}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#numbers.formatInteger(freeboard.report, 1)}"></span>
+					            </td>
+					            <td>
+					            	<form th:action="@{'/admin/freeboard/post/' + ${freeboard.fbindex}}" method="post">
+					            		<input type="hidden" name="_method" value="delete" />
+					            		  <input type="hidden" name="fbindex" th:value="${freeboard.fbindex}" />
+					            		<button class="delete" type="submit">삭제</button>
+					            	</form>
+					            </td>
+			    			</tr>
+		        		</tbody>
+				    </table>
+				</div>
+				<div id="tab-2" class="tab-content">
+					<h2> 신고가 누적된 <span style="color: rgb(103, 162, 218); font-size: 18px;">댓글</span>입니다. </h2>
+					<table>
+				        <thead>
+				            <!-- 게시판 분류-->
+				            <tr>
+				                <th style="width:10%">번호</th>
+				                <th style="width:20%">제목</th>
+				                <th style="width:15%">작성자</th>
+				                <th style="width:20%">내용</th>
+				                <th style="width:15%">작성일</th>
+				                <th style="width:15%">신고수</th>
+				                <th style="width:10%"></th>
+				            </tr>
+				        </thead>
+		        		<tbody>
+					        <!-- Contents -->
+					        <!-- 반복문으로 게시판 댓글을 반복해서 보여줌-->
+			    			<tr th:each="comment : ${commentList}">
+								<td>
+									<span th:text="${comment.cmtindex}"></span>
+								</td>
+					            <td>
+						            <a th:href="@{'/freeboard/post/' + ${comment.fbindex}}">
+						                <span th:text="${comment.fbtitle}"></span>
+						            </a>
+					            </td>
+					            <td>
+					                <span th:text="${comment.mid}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${comment.comment}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#numbers.formatInteger(comment.report, 1)}"></span>
+					            </td>
+					            <td>
+					            	<form th:action="@{'/admin/freeboard/post/' + ${comment.fbindex} + '/comments/' + ${comment.cmtindex}}" method="post">
+					            		<input type="hidden" name="_method" value="delete" />
+					            		  <input type="hidden" name="fbindex" th:value="${comment.fbindex}" />
+					            		  <input type="hidden" name="cmtindex" th:value="${comment.cmtindex}" />
+					            		<button class="delete" type="submit">삭제</button>
+					            	</form>
+					            </td>
+			    			</tr>
+		        		</tbody>
+					</table>
+				</div>
+				<div id="tab-3" class="tab-content">
+					<h2> 신고가 누적된 <span style="color: rgb(103, 162, 218); font-size: 18px;">수강후기</span>입니다. </h2>
+					<table>
+				        <thead>
+				            <!-- 게시판 분류-->
+				            <tr>
+				                <th style="width:10%">번호</th>
+				                <th style="width:20%">강의명</th>
+				                <th style="width:10%">작성자</th>
+				                <th style="width:30%">내용</th>
+				                <th style="width:10%">평점</th>
+				                <th style="width:10%">작성일</th>
+				                <th style="width:10%">신고수</th>
+				                <th style="width:10%"></th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				        <!-- Contents -->
+				        <!-- 반복문으로 게시판 글을 반복해서 보여줌-->
+					    	<tr th:each="review : ${reviewList}">
+								<td>
+									<span th:text="${review.rvindex}"></span>
+								</td>
+					            <td>
+						            <a th:href="@{'/claco/post/' + ${review.cindex}}">
+						                <span th:text="${review.cname}"></span>
+						            </a>
+					            </td>
+					            <td>
+					                <span th:text="${review.mid}"></span>
+					            </td>
+					              <td>
+					                <span th:text="${review.contents}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#numbers.formatDecimal(review.score, 1, 2)}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#temporals.format(review.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#numbers.formatInteger(review.report, 1)}"></span>
+					            </td>
+					            <td>
+					            	<form th:action="@{'/admin/claco/post/' + ${review.cindex} + '/review/' + ${review.rvindex}}" method="post">
+					            		<input type="hidden" name="_method" value="delete" />
+					            		  <input type="hidden" name="cindex" th:value="${review.cindex}" />
+					            		  <input type="hidden" name="rvindex" th:value="${review.rvindex}" />
+					            		<button class="delete" type="submit">삭제</button>
+					            	</form>
+					            </td>
+					        </tr>
+				        </tbody>
+		    		</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

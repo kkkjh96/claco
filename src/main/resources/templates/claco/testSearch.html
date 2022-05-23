@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+        *{ padding: 0; margin: 0; box-sizing: border-box;}
+        #wrap
+        {
+            background-color: aqua;
+            width: 1000px;
+            height: 400px;
+        }
+        .local_area::after
+        {
+            float: both;
+        }
+        .local
+        {
+            width: 400px;
+            height: 400px;
+            border: 1px solid;
+            display: inline-block;
+            float: left;
+        }
+        .area
+        {
+            width: 600px;
+            height: 400px;
+            border: 1px solid;
+            display: inline-block;
+            float: right; 
+        }
+        .list li
+        {
+            list-style: none;
+        }
+        
+        .search 
+        {
+            display:inline-block;
+        }
+        
+        #btn_Seoul
+        {
+            display: none;
+        }
+        #btn_Busan
+        {
+            display: none;
+        }
+</style>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+		/*서울 버튼 클릭시 서울 지역 체크박스 표시 및 다른지역 체크박스 해제*/
+        function btnClick_Seoul()
+        {
+            var seoul = document.getElementById('btn_Seoul'); //btn_Seoul이라는 id를 찾아서 변수 seoul에 저장
+            var busan = document.getElementById('btn_Busan'); //btn_Busan이라는 id를 찾아서 변수 busan에 저장
+            seoul.style.display = 'block'; //서울 버튼 클릭시에 서울의 체크박스 표시
+            busan.style.display = 'none'; //서울 버튼 클릭시 부산의 체크박스 없애기
+            
+            
+            /*서울 버튼 클릭시 다른 지역의 체크박스는 전부 해제 - (부산지역 해제)*/
+            const busan_Disabled = document.getElementsByName("checkbox_busan"); //부산 지역들
+            const busan_Allbtn_Disabled = document.getElementsByName("checkbox_busan_selectAll"); //전체버튼 
+            if($(busan_Disabled).prop("checked") ==true) //부산지역들이 체크되어있으면
+           	{
+            	//부산지역들의 체크를 해제
+            	busan_Disabled.forEach((checkbox) => 
+            	{
+            	    checkbox.checked = false;
+                })
+           	}
+            if($(busan_Allbtn_Disabled).prop("checked") == true) //전체버튼이 체크되어있으면
+            {
+            	//전체버튼의 체크 해제
+            	busan_Allbtn_Disabled.forEach((checkbox) => 
+            	{
+            	    checkbox.checked = false;
+                })
+            }
+        }
+		
+        /*부산 버튼 클릭시 부산 지역 체크박스 표시 및 다른지역 체크박스 해제*/
+        function btnClick_Busan()
+        {
+            var seoul = document.getElementById('btn_Seoul'); //btn_Seoul이라는 id를 찾아서 변수 seoul에 저장
+            var busan = document.getElementById('btn_Busan'); //btn_Busan이라는 id를 찾아서 변수 busan에 저장
+            seoul.style.display = 'none'; //부산 버튼 클릭시에 부산의 체크박스 표시
+            busan.style.display = 'block'; //부산 버튼 클릭시 서울의 체크박스 없애기
+            
+            /*부산 버튼 클릭시 다른 지역의 체크박스는 전부 해제 - (서울지역 해제)*/
+            const seoul_Disabled = document.getElementsByName("checkbox_seoul"); //서울 지역들
+            const seoul_Allbtn_Disabled = document.getElementsByName("checkbox_seoul_selectAll"); //전체버튼 
+            if($(seoul_Disabled).prop("checked") ==true) //서울지역들이 체크되어있으면
+           	{
+            	//서울지역들의 체크를 해제
+            	seoul_Disabled.forEach((checkbox) => 
+            	{
+            	    checkbox.checked = false;
+                })
+           	}
+            if($(seoul_Allbtn_Disabled).prop("checked") == true) //전체버튼이 체크되어있으면
+            {
+            	//전체버튼의 체크 해제
+            	seoul_Allbtn_Disabled.forEach((checkbox) => 
+            	{
+            	    checkbox.checked = false;
+                })
+            }
+        }
+        
+        /*서울 전체 버튼 클릭시 서울 지역 체크박스 전부 선택*/
+        function selectAll_Seoul(selectAll)  {
+            const checkboxes = document.getElementsByName('checkbox_seoul'); //name이 checkbox_seoul인 객체 checkboxes에 저장
+        	
+            //checkboxes가 없을때까지 반복(name이 checkbox_seoul인 객체들을 반복문으로 돌리는것)
+        	checkboxes.forEach((checkbox) => 
+        	{
+        		//name이 checkbox_seoul인 객체들의 checked 상태를 true로
+        	    checkbox.checked = selectAll.checked
+            })
+        }
+        
+        /*서울 모든 체크박스가 선택되어있는 경우에 지역 하나를 체크해제하면 이름이 전체인 체크박스가 해제*/
+        function checkSelectAll_S(checkbox)  {
+            const selectall = document.querySelector('input[name="checkbox_seoul_selectAll"]');
+        	
+        	if(checkbox.checked === false)  
+        	{
+        		//name이 checkbox_seoul_selectAll인 객체들의 checked 상태를 false로
+        	    selectall.checked = false;
+        	}
+        }
+		
+        /*부산 전체 버튼 클릭시 부산 지역 체크박스 전부 선택*/
+        //서울의 코드와 동일
+        function selectAll_Busan(selectAll)  {
+            const checkboxes = document.getElementsByName('checkbox_busan');
+        	  
+        	checkboxes.forEach((checkbox) => 
+        	{
+        	    checkbox.checked = selectAll.checked
+            })
+        }
+        
+        /*부산 모든 체크박스가 선택되어있는 경우에 지역 하나를 체크해제하면 이름이 전체인 체크박스가 해제*/
+        //서울의 코드와 동일
+        function checkSelectAll_B(checkbox)  {
+            const selectall = document.querySelector('input[name="checkbox_busan_selectAll"]');
+        	  
+        	if(checkbox.checked === false)  
+        	{
+        	    selectall.checked = false;
+        	}
+        }
+        
+        
+        /*체크박스에 체크된 값들을 배열에 저장*/
+        function fnGetdata(){
+            var chkArray_S = new Array(); // 배열 선언 (서울의 지역을 저장할 배열)
+            var chkArray_B = new Array(); // 배열 선언 (부산의 지역을 저장할 배열)
+
+            $('input:checkbox[name=checkbox_seoul]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+            	if(this.value != "전체") //value가 전체가 아닌 경우 (전체라는 이름의 체크박스를 빼고 배열에 넣어야하기 때문에)
+            		chkArray_S.push(this.value);       	
+            });
+            
+            $('input:checkbox[name=checkbox_busan]:checked').each(function() { // 체크된 체크박스의 value 값을 가지고 온다.
+            	if(this.value != "전체") //value가 전체가 아닌 경우 (전체라는 이름의 체크박스를 빼고 배열에 넣어야하기 때문에)
+            		chkArray_B.push(this.value);
+            });
+			
+            //테스트용 코드
+            /*
+            $('#hiddenValue_S').val(chkArray_S); //hiddenValue_S의 아이디를 가진 객체의 값에 chkArray_S값(배열) 저장
+            $('#hiddenValue_B').val(chkArray_B); //hiddenValue_S의 아이디를 가진 객체의 값에 chkArray_S값(배열) 저장
+
+            alert($('#hiddenValue_S').val()); // 체크박스 중 어떤게 체크되었는지 확인용
+            alert($('#hiddenValue_B').val());  // 체크박스 중 어떤게 체크되었는지 확인용
+            */
+            //테스트용 코드
+            
+            $('input[name=arr_location_S]').val(chkArray_S); //input의 값에 chkArray_S값(배열)을 저장
+            $('input[name=arr_location_B]').val(chkArray_B); //input의 값에 chkArray_B값(배열)을 저장
+        }
+        
+</script>
+</head>
+<body>
+	<div id="wrap">
+        <div class = "local_area">
+            <div class ="local" >
+                <ul class="list">
+                    <li><button onclick="btnClick_Seoul()">서울</button></li>
+                    <li><button onclick="btnClick_Busan()">부산</button></li>
+                </ul>
+            </div>
+            <div class ="area">
+            	<div id = "btn_Seoul" class="list checkbox_group">
+        			<input type="checkbox" name="checkbox_seoul_selectAll" id="checkbox_seoul1" value="전체" onclick="selectAll_Seoul(this)"/>전체
+            		<input class = "checkbox_seoul" type="checkbox" name="checkbox_seoul" id="checkbox_seoul2" value="강남구" onclick = "checkSelectAll_S(this)"/>강남구
+            		<input class = "checkbox_seoul" type="checkbox" name="checkbox_seoul" id="checkbox_seoul3" value="강서구" onclick = "checkSelectAll_S(this)"/>강서구
+            		<input type="hidden" name="hiddenValue_S" id="hiddenValue_S" value=""/>
+            	</div>
+                <div id = "btn_Busan" class="list">
+        			<input type="checkbox" name="checkbox_busan_selectAll" id="checkbox_busan1" value="전체" onclick="selectAll_Busan(this)"/>전체
+            		<input class = "checkbox_busan" type="checkbox" name="checkbox_busan" id="checkbox_beoul2" value="사하구" onclick = "checkSelectAll_B(this)"/>사하구
+            		<input class = "checkbox_beoul" type="checkbox" name="checkbox_busan" id="checkbox_beoul3" value="사상구" onclick = "checkSelectAll_B(this)"/>사상구
+            		<input type="hidden" name="hiddenValue_B" id="hiddenValue_B" value=""/>
+            	</div>
+	        </div>
+        </div>
+	</div>
+    <form action="/claco/keyword/search" method="GET">
+    	<div>
+        	<input name="keyword" type="text" placeholder="검색어를 입력해주세요"> <!-- 입력된 키워드를 토대로 검색하기 위해서 keyword 데이터를 보냄 -->
+    	</div>
+    	<input name ="arr_location_S" type ="hidden" > <!-- 서울에서 선택된 지역 배열 데이터 보내기 -->
+    	<input name ="arr_location_B" type ="hidden" > <!-- 부산에서 선택된 지역 배열 데이터 보내기 -->
+    	<button id="search" onclick="fnGetdata();">검색하기</button>
+	</form>
+</body>
+</html>

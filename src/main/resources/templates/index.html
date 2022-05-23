@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Claco!</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="css/clacoClass.css">
+    <link rel="stylesheet" href="css/clacoReview.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+    	/*
+    	table {
+    		width: 100%;
+    		margin: 0;
+    	}
+    	*/
+    </style>
+</head>
+<body>
+	<div layout:fragment="content">
+			<div id ="main_content">
+				<!-- 광고 -->
+				<div id="event" >
+	        <!--Carousel : 마우스 이전버튼 다음버튼 / 터치 등 다양한 기능을 사용할 수 있게 해줌-->
+			        <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+			            <div class="carousel-indicators">
+			                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+			                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+			                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+			            </div>
+			            <div class="carousel-inner">
+			                <div class="carousel-item active" data-bs-interval="4000">
+			                    <!-- d-block - display : block -->
+			                    <a href="#"><img src="/img/temp/AD(1).png" class="d-block w-100" alt="메인광고이미지1"></a>
+			                </div>
+			                <div class="carousel-item" data-bs-interval="4000">
+			                    <a href="#"><img src="/img/temp/AD(2).png" class="d-block w-100" alt="메인광고이미지2"></a>
+			                </div>
+			                <div class="carousel-item" data-bs-interval="4000">
+			                    <a href="#"><img src="/img/temp/AD(3).png" class="d-block w-100" alt="메인광고이미지3"></a>
+			                </div>
+			            </div>
+			            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+			                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+			                <span class="visually-hidden">Previous</span>
+			            </button>
+			            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+			                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+			                <span class="visually-hidden">Next</span>
+			            </button>
+			        </div>
+	    		</div>
+	    		<!-- //광고 -->
+	    		<!-- 추천강의 -->
+	    		<h1 class="best_class_header">BEST CLASS</h1>
+			<!-- onclick="|location.href='@{}'|" 로 경로 불러오기 가능함 -->
+			   	<a class="to_many" href="#">read more >></a>
+				<div class="best_class">
+					<div class ="card" th:each="class : ${listClass}" style="cursor:pointer" th:onclick="|location.href='@{'/claco/post/' + ${class.cindex}}'|" >
+						<img th:src="${listImg.get(classStat.index)}" class="resize_img">
+						<div class = "c_name" ><h2 th:text = "${class.name}"></h2></div>
+						<hr>
+						<div class = "c_info">
+							<p class="c_category" th:text = "${class.category}"></p>
+							<div class="c_score">
+								<div class="wrap-star">
+				    				<div class='star-rating'>
+				       					<span th:style="|width: ${class.score*20}%|"></span>
+				    			</div>
+							</div>
+						</div>
+						</div>
+						<div class = "c_info2">
+							<div class="c_period">
+								<div class =" c_Speriod" th:text = "${class.startperiod + ' / '}"></div>
+					          	<div class =" c_Eperiod" th:text = "${class.endperiod}"></div>
+							</div>
+						</div>
+						<hr>
+						<div class = "c_info3">
+							<div class="price">
+								<img class="money" src = "/img/temp/돈.png" alt="돈이미지" >
+								<div class="c_price" th:text = "${#numbers.formatInteger(class.price, 0,'COMMA')}"></div>
+							</div>
+							<div class="name" th:text = "${class.aname}">학원이름</div>
+							<div class="medal" >
+								<div th:if ="${class.agrade} >= 4000">
+									<img src = "/img/temp/마스터.png" alt="이미지" >
+				          		</div>
+				          		<div th:if ="${class.agrade} >= 3000 and ${class.agrade} < 4000">
+				          			<img src = "/img/temp/플래티넘.png" alt="이미지" >
+				          		</div>
+				          		<div th:if ="${class.agrade} >= 2000 and ${class.agrade} < 3000">
+				          			<img src = "/img/temp/골드.png" alt="이미지" >
+				          		</div>
+				          		<div th:if ="${class.agrade} >= 1000 and ${class.agrade} < 2000">
+				          			<img src = "/img/temp/실버.png" alt="이미지" >
+				          		</div>
+				          		<div th:if ="${class.agrade} >= 0 and ${class.agrade} < 1000">
+				          			<img src = "/img/temp/브론즈.png" alt="이미지" >
+				          		</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- //추천강의 -->
+				<hr>
+				<!-- 최신리뷰 -->
+				<h1 class="review_header">TODAY REVIEW</h1>
+				<a href="/claco/review/list" class="to_many">read more >></a>
+				<div class="card_review">
+		           	<div class="card_review_content" th:each = "review : ${listReview}" th:if="${review.status} == 'approval'">
+		           		<div class="card_header">
+		           			<div class ="card_header_profile">
+		           				<div class ="card_header_profile_info_name" ><a th:href="@{'/claco/post/' + ${review.cindex}}" th:text = "${review.cname}"></a></div>
+		                        <div class ="card_header_profile_info_date" th:text ="${#temporals.format(review.createdDate, 'yyyy-MM-dd HH:mm')}">2022-02-05</div>
+		                    </div>
+		                    	<div class="card_header_rating">
+									<div class="card_academy_info_name" th:text ="${review.mid}"></div>
+									<div class="c_score ration_count">
+										<div class="wrap-star">
+						    				<div class='star-rating'>
+						       					<span th:style="|width: ${review.score*20}%|"></span>
+						    				</div>
+										</div>
+									</div>
+		                    	</div>
+		           		</div>
+		                <div class="card_content" th:text = "${review.contents}"></div>
+					</div>
+				</div>
+				<hr>
+				
+				<!-- 게시판 -->
+				<div class = "board">
+					<!-- 자유게시판 -->
+					<div class = "freeboard">
+						<div class = "notice4 mt15"> 
+							<h4>FREE BOARD</h4> 
+							<ul th:each="freeboard : ${freeboardList}"> 
+								<li>
+									<a th:href="@{'/freeboard/post/' + ${freeboard.fbindex}}">
+										<span th:text="${freeboard.title}"></span>
+									</a>
+									<span class="boardDate" th:text ="${#temporals.format(freeboard.createdDate, 'yyyy-MM-dd')}"></span>
+									<span class="boardMid" th:text = "${freeboard.mid}"></span>
+								</li> 
+							</ul> 
+							<a th:href="@{/freeboard}" class ="more">read more >></a> 
+						</div>
+				    </div>
+				    <!-- //자유게시판 -->
+				    <!-- 공지사항 -->
+					<div class = "alertboard">
+						<!--  
+				    	<h2><a th:href="@{/alertboard}">공지사항</a></h2> -->
+				    	<div class = "notice4 mt15"> 
+							<h4> NOTICE </h4> 
+							<ul th:each="alertboard : ${alertboardList}"> 
+								<li>
+									<a th:href="@{'/alertboard/post/' + ${alertboard.abindex}}">
+										<span th:text="${alertboard.title}"></span>
+									</a>
+									<span class="boardDate" th:text ="${#temporals.format(alertboard.createdDate, 'yyyy-MM-dd')}"></span>
+								</li> 
+							</ul> 
+							<a th:href="@{/alertboard}" class ="more">read more >></a> 
+						</div>
+				    </div>
+				    <!-- //공지사항 -->
+				</div>
+				<!-- //게시판 -->
+			</div>
+			<!-- //최신리뷰 -->
+		<!--  
+		<h1><a href="#.
+		">추천강의</a></h1>
+		<div class ="wrap" th:each="class : ${listClass}" style="cursor:pointer" th:onclick="|location.href='@{'/claco/post/' + ${class.cindex}}'|">
+				<img th:src="${listImg.get(classStat.index)}" class="resize_img">
+		<div class = "c_name" ><h2 th:text = "${class.name}"></h2></div>
+		<div class = "c_info"><p th:text = "${class.category}"></p></div>
+		<div class = "c_info2">
+			<div class="c_period">
+				<div th:text = "${class.startperiod}"></div>
+	          	<div th:text = "${class.endperiod}"></div>
+			</div>
+			<div class="c_score" th:text = "${#numbers.formatDecimal(class.score, 1, 2)}">평점</div>
+		</div>
+		<div class = "c_info3">
+			<div class="c_price" th:text = "${#numbers.formatInteger(class.price, 1)}">가격</div>
+				<div class="name" th:text = "${class.aname}">학원이름</div>
+				<div class="medal" >
+					<div th:if ="${class.agrade} >= 4000">
+						<div>마스터</div>
+	          		</div>
+	          		<div th:if ="${class.agrade} >= 3000 and ${class.agrade} < 4000">
+	          			<div>플래티넘</div>
+	          		</div>
+	          		<div th:if ="${class.agrade} >= 2000 and ${class.agrade} < 3000">
+	          			<div>골드</div>
+	          		</div>
+	          		<div th:if ="${class.agrade} >= 1000 and ${class.agrade} < 2000">
+	          			<div>실버</div>
+	          		</div>
+	          		<div th:if ="${class.agrade} >= 0 and ${class.agrade} < 1000">
+	          			<div>브론즈</div>
+	          		</div>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<h1><a href="/claco/review/list">수강후기</a></h1>
+		<div class="card_wrapper" th:each = "review : ${listReview}" th:if="${review.status} == 'approval'">
+			<div class="card__inner" >
+				<div class="card__content">
+					<div class="card_header">
+						<div class ="card_header_profile">
+							<div class ="card_header_profile_info_name" th:text ="${review.mid}"></div>
+							<div class ="card_header_profile_info_date" th:text ="${#temporals.format(review.createdDate, 'yyyy-MM-dd HH:mm')}"></div>
+						</div>
+						<div class="card_header_rating">
+							<span class = "ration_count" th:text = "${#numbers.formatDecimal(review.score, 1, 2)}"></span>
+						</div>
+					</div>
+					<div class="card_academy">
+						<div class="card_academy_info_name"><a th:href="@{'/claco/post/' + ${review.cindex}}" th:text = "${review.cname}"></a></div>
+					</div>
+					<div class="card_content" th:text = "${review.contents}"></div>
+				</div>
+			</div>
+		</div>
+	    <hr>
+	    <div>
+	    	<h2><a th:href="@{/alertboard}">공지사항</a></h2>
+		    <table>
+		        <tbody>
+		            <tr th:each="alertboard : ${alertboardList}">
+		                <td>
+		                    <a th:href="@{'/alertboard/post/' + ${alertboard.abindex}}">
+		                        <span th:text="${alertboard.title}"></span>
+		                    </a>
+		                </td>
+		            </tr>
+		        </tbody>
+		    </table>
+	    </div>
+	    <hr>
+	    <div>
+	    	<h2><a th:href="@{/freeboard}">자유게시판</a></h2>
+		    <table>
+		        <tbody>
+		            <tr th:each="freeboard : ${freeboardList}">
+		                <td>
+		                    <a th:href="@{'/freeboard/post/' + ${freeboard.fbindex}}">
+		                        <span th:text="${freeboard.title}"></span>
+		                    </a>
+		                </td>
+		            </tr>
+		        </tbody>
+		    </table>
+	    </div>
+	    <hr>
+	    <div>
+	    	<h2><a href="#">이벤트 광고</a></h2>
+	    	<a href="#"><img src="https://via.placeholder.com/350x150.png?text=This+is+an+advertisement."></a>
+	    </div>
+	    -->
+	    <!--
+	    <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+	    <a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+	    <a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+	    <a sec:authorize="hasRole('ROLE_MEMBER')" th:href="@{/user/info}">내정보</a>
+	    <a sec:authorize="hasRole('ROLE_COMPANY')" th:href="@{/user/cpninfo}">회사정보</a>
+	    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">어드민</a>
+	    -->
+	    </div>
+
+   	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="/js/slideShow.js"></script>
+</body>
+</html>

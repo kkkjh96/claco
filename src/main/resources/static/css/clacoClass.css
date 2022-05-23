@@ -1,0 +1,233 @@
+	/*
+	*
+    {
+        margin: 0;
+        padding: 0;
+    }
+    .wrap{
+        width: 300px;
+        height: 400px;
+        background-color: aqua;
+        border: 1px solid;
+        display: inline-block;
+    }
+
+    div .img
+    {
+        height: 240px;
+        width: 100%;
+        overflow: hidden;
+
+    }
+    
+    .resize_img
+    {
+        height: 240px;
+        width: 100%;
+        overflow: hidden;
+
+    }
+    
+    div .img img
+    {
+        height: 100%;
+
+    }
+
+    div .c_name
+    {
+        width: 100%;
+        height: 40px;
+    }
+
+    div .c_name h2
+    {
+        height: 40px;
+        line-height: 40px;
+        font-size: 16px;
+    }
+
+    div .c_info,.c_info2,.c_info3
+    {
+        width: 100%;
+        height: 40px;
+    }
+    .c_period
+    {
+        width: 140px;
+        height: 40px;
+        display: inline-block;
+    }
+    .c_score
+    {
+        width: 140px;
+        height: 40px;
+        display: inline-block;
+    }
+    
+    .c_price
+    {
+        width: 100px;
+        height: 40px;
+        display: inline-block;
+    }
+    .name
+    {
+        width: 100px;
+        height: 40px;
+        display: inline-block;
+    }
+    .medal
+    {
+        width: 50px;
+        height: 40px;
+        display: inline-block;
+        font-size: 12px;
+    }
+    */
+.best_class
+{
+   	width: 1305px;
+   	margin: 0 auto;
+}
+.card
+{
+    width: 300px;
+    height: 400px;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    display: inline-block;
+    box-shadow: 1px 1px 10px 1px rgba(211, 211, 211, 0.6);
+    margin: 15px 10px;
+    overflow: hidden;
+}
+hr
+{
+  	margin:0px; 	
+}
+
+.resize_img
+{
+	height: 240px;
+	width: 100%;
+	overflow: hidden;
+
+}
+
+/*강의이름*/
+.c_name
+{
+    width: 100%;
+    height: 40px;
+    text-align: center;
+}
+.c_name h2
+{
+    height:40px;
+    line-height: 40px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+/*강의내용*/
+.c_info,.c_info2,.c_info3
+{
+    margin-left: 10px;
+    margin-top: 3px;
+    width: 280px;
+    height: 25px;
+    line-height: 25px;
+    margin-bottom: 0px;
+    display: inline-block;
+}
+.c_info::after,.c_info2::after,.c_info3::after
+{
+	content:'';
+	display:block;
+	clear:both;
+}
+   
+
+   /*c_info*/
+.c_category
+{
+	display: inline-block;
+	height:20px;
+	float:left;
+}
+.c_score
+{
+	margin-top:0px;
+    width: 100px;
+    height: 25px;
+    display: inline-block;
+    float: right;
+}
+/*별점*/
+.star-rating {width:100px; position: relative;}
+.star-rating,.star-rating span 
+{
+	display:inline-block; 
+	height:21px; 
+	overflow:hidden; 
+	background:url(/img/temp/star.png)no-repeat; 
+}
+.star-rating span
+{
+	background-position:left bottom; 
+	line-height:0; 
+	vertical-align:top; 
+}
+
+/*c_info2*/
+.c_period
+{
+	height: 30px;
+	width: 100%;
+}
+.c_Speriod,.c_Eperiod
+{
+	font-size:15px;
+    width: 100px;
+    height: 25px;
+    display: inline-block;
+    float: left;
+    
+}
+   
+   /*c_info3*/
+.price
+{
+    width: 150px;
+    display: inline-block;
+    float: left;
+}
+.money
+{
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+}
+.c_price
+{
+	display: inline-block;
+	width:110px;
+	height: 25px;
+}
+.name
+{
+	text-align: center;
+    width: 100px;
+    height: 25px;
+    display: inline-block;
+}
+.medal
+{
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    font-size: 12px;
+    text-align: right;
+    float: right;
+}
+    

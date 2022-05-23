@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	
+</head>
+
+    <div th:fragment="header">
+    	<th:block layout:fragment="css">
+			<link rel="stylesheet" href="/css/testfilter.css" />
+		</th:block>
+         <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container px-4 px-lg-5">
+                <span>
+                    <a class="navbar-brand" th:href="@{'/'}">
+                        <b style="font-size: 28px; color:#60BFB6; text-shadow: -1px 0 #0D0D0D, 0 1px #0D0D0D, 1px 0 #0D0D0D, 0 -1px #0D0D0D; margin-right: -8px">클래</b>
+                        <b style="font-size: 28px; color:#F2D22E; text-shadow: -1px 0 #0D0D0D, 0 1px #0D0D0D, 1px 0 #0D0D0D, 0 -1px #0D0D0D;">코</b>
+                    </a>
+                </span>
+                <span>
+	                <div id="wrap">
+				        <div class = "local_area">
+				            <div class ="local" >
+				                <ul class="list">
+				                    <li><button name = "btnSeoul" onclick="btnClick(this)" value ="서울시">서울</button></li>
+				                    <li><button name = "btnBusan" onclick="btnClick(this)" value ="부산시">부산</button></li>
+				                    <input type = "hidden" id ="btn" value = ""/>
+				                </ul>
+				            </div>
+				            <div class ="area">
+				            	<div id = "btn_Seoul" class="list checkbox_group">
+				        			<input class = "checkbox_seoul" type="checkbox" name="checkbox_seoul_selectAll" id="checkbox_seoul1" value="전체" onclick="selectAll(this)"/>전체
+				            		<input class = "checkbox_seoul" type="checkbox" name="checkbox_seoul" id="checkbox_seoul2" value="강남구" onclick = "checkSelectAll(this)"/>강남구
+				            		<input class = "checkbox_seoul" type="checkbox" name="checkbox_seoul" id="checkbox_seoul3" value="강서구" onclick = "checkSelectAll(this)"/>강서구
+				            		<input class = "checkbox_seoul" type="checkbox" name="checkbox_seoul" id="checkbox_seoul4" value="강동구" onclick = "checkSelectAll(this)"/>강동구
+				            	</div>
+				                <div id = "btn_Busan" class="list">
+				        			<input class = "checkbox_busan" type="checkbox" name="checkbox_busan_selectAll" id="checkbox_busan1" value="전체" onclick="selectAll(this)"/>전체
+				            		<input class = "checkbox_busan" type="checkbox" name="checkbox_busan" id="checkbox_beoul2" value="사하구" onclick = "checkSelectAll(this)"/>사하구
+				            		<input class = "checkbox_busan" type="checkbox" name="checkbox_busan" id="checkbox_beoul3" value="사상구" onclick = "checkSelectAll(this)"/>사상구
+				            	</div>
+				            	
+					        </div>
+				        </div>
+					</div>
+                	<form action="/claco/search" method="GET">
+                		<span>
+        					<input name="keyword" type="text" placeholder="검색어를 입력해주세요.">
+        					<input name ="arr_location" type ="hidden" >
+        					<button id="submit" onclick="fnGetdata()">검색</button>
+    					</span>
+                	</form>
+                </span>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                        <li class="nav-item"><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a></li>
+                        <li class="nav-item"><a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a></li>
+                        <li class="nav-item"><a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a></li>
+                        <li class="nav-item"><a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/admin}">관리자</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" sec:authorize="isAuthenticated()" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">내 정보</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" th:href="@{/user/mypage}">마이페이지</a></li>
+                                <li sec:authorize="hasRole('ROLE_COMPANY')"><a class="dropdown-item" th:href="@{/academy/add}">학원등록</a></li>
+                                <li><hr class="dropdown-divider" /></li>                             
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+             <div sec:authorize="isAuthenticated()" >
+           			<span sec:authentication="name" style="color:blue"></span>님 환영합니다~
+        	</div> 
+        </nav>
+       
+
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Claco</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Best Class Community</p>
+                </div>
+            </div>
+        </header>
+        
+        
+        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="/js/testfilter.js" defer></script>
+    </div>
+</html>

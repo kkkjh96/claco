@@ -1,0 +1,152 @@
+	@charset "UTF-8";
+	
+	
+	/* 탭관련 부분 */
+	.tabs{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+	}
+	.tabs li{
+	background: none;
+	color: #222;
+	display: inline-block;
+	padding: 10px 15px;
+	cursor: pointer;
+	}
+
+	.tabs li.current{
+	background: #ededed;
+	color: #222;
+	}
+
+	.tab-content{
+	display: none;
+	padding: 15px;
+	}
+
+	.tab-content.current{
+	display: inherit;
+	}
+	
+	/* 탭부분끝*/
+	
+	
+	/* 전체 레이아웃 정렬, 테이블 정렬 */
+	#wrap2 {
+		width: 100%;
+		display: flex;
+	}		
+		
+	#wrap2 h1 {
+		background-color:#E5F7D8;
+	}	
+		
+	#contents {
+		float: right;
+		width: 80%;
+		border:1px solid #a1d4e3;
+	}
+	
+	#sidebar {
+		width: 20%;
+		position: relative;
+		float:left;
+	}
+	
+	table {
+		width:100%;
+		margin:0;		
+	}
+	
+	table tr {
+		transition:0.3s;
+	}
+	
+	table tr:hover {
+		background-color: #E5F7D8;
+	}
+	
+	table a {
+		transition: 0.3s;
+	}
+	
+	table a:hover {
+		color:orange;
+		text-decoration:none;
+	}
+	
+	.write {
+		transition: 0.3s;
+	}
+	
+	.write:hover {
+		color:#F43DE9;
+		text-decoration:none;
+	}
+	
+	#update_form {
+		width:100%;
+	}
+	
+	#update_form b {
+		display:inline-block;
+		width:100px;
+		height:24px;	
+	}
+	
+	
+	/* 회원정보 수정 시 유효성 검사 메시지 컬러 */
+	#valid {
+		color:red;
+	}
+	
+	/* 회원정보 수정 시 고정된 아이디 컬러 */
+	#update_id {
+		border:none;
+		color: green;
+	}
+	
+	/* 회원정보 수정 시 고정된 이름 컬러 */
+	#update_name {
+		border:none;
+		color: green;
+	}
+	
+	
+	/* 회원정보 수정 버튼 css */
+	#update_submit {
+		margin: 3spx solid black;
+		background-color:gray;;
+		color:white;
+		transition:0.3s;
+	}
+	
+	#update_submit:hover {
+		background-color:white;
+		color:black;
+	}
+	
+	#update_cancel {
+		margin: 3px solid black;
+		background-color:gray;;
+		color:white;
+		transition:0.3s;
+	}
+	
+	#update_cancel:hover {
+		background-color:white;
+		color:black;
+	}
+	
+	
+	/* mypage문구 css */
+	.welcome {
+		transition:0.3s;
+	}
+	
+	.welcome:hover {
+		background-color: #E5F7D8;
+	}
+	
+	

@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${classDto.name}"></title>
+	
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/detailClass.css">
+
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <meta name="_csrf" th:content="${_csrf.token}" />
+</head>
+<body>
+	<!-- layout -->
+    <div layout:fragment="content">
+  	    <div class="detailClass">
+	        <div class="detailClass_header">
+	            <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+	                <div class="carousel-indicators">
+	                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+	                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+	                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+	                </div>
+	                <div class="carousel-inner">
+	                    <div class="carousel-item active" data-bs-interval="4000">
+	                        <!-- d-block - display : block -->
+	                        <a href="#">
+                        	    <div th:each="imagefile : ${imageList}"> 	
+									<img th:src="${imagefile}" style="width: 600px; height:500px" class="d-block w-100" alt="학원이미지1">
+								</div>
+	                        <!-- <img src="https://via.placeholder.com/600x500.jpg" class="d-block w-100" alt="메인광고이미지1"> -->
+	                        </a>
+	                    </div>
+	                    <div class="carousel-item" data-bs-interval="4000">
+	                        <a href="#"><img src="https://via.placeholder.com/600x500.jpg" class="d-block w-100" alt="메인광고이미지2"></a>
+	                    </div>
+	                    <div class="carousel-item" data-bs-interval="4000">
+	                        <a href="#"><img src="https://via.placeholder.com/600x500.jpg" class="d-block w-100" alt="메인광고이미지3"></a>
+	                    </div>
+	                </div>
+	                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+	                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	                    <span class="visually-hidden">Previous</span>
+	                </button>
+	                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+	                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	                    <span class="visually-hidden">Next</span>
+	                </button>
+	            </div>
+	            
+	            <div class="bookmark">
+	            	<div th:unless="${isWriter}">
+           				<div th:if="${isLogin}">
+							<form th:action="@{'/favorite/post/' + ${classDto.cindex}}" method="post">
+								<input type="hidden" name="_method" value="put" />
+								<input type="hidden" id="cindex" th:value="${classDto.cindex}">
+								<button type="submit">강의 즐겨찾기</button>
+							</form>
+						</div>
+				        <div class="favorite" th:if="${favorite} == 1">
+				        	<span th:text="${#numbers.formatInteger(favorite, 1)}" ></span>
+				        	<span>Favorite</span>
+				        </div>
+				        <div class="favorite" th:unless="${favorite} == 1">
+				        	<span th:text="${#numbers.formatInteger(favorite, 1)}"></span>
+				        	<span>Favorites</span>
+				        </div>
+
+			        </div>
+			        <div sec:authorize="hasRole('ROLE_COMPANY')">
+				   		<a th:href="@{'/user/cpnClassList'}">
+				            <button>나의 강의</button>
+				        </a>
+				        <div th:if="${isWriter}">
+					        <a th:href="@{'/claco/post/edit/' + ${classDto.cindex}}">
+					            <button>수정</button>
+					        </a>
+					
+					        <form id="delete-form" th:action="@{'/claco/post/' + ${classDto.cindex}}" method="post">
+					            <!-- controller에서는 delete로 매핑-->
+					            <input type="hidden" name="_method" value="delete" />
+					            <button id="delete-btn">삭제</button>
+					        </form>
+				        </div>
+			        </div>
+	            </div>
+	        </div>
+	        <div class="classDetailBox">
+	            <div class="detailClass_aName">
+	            	<img src="/img/temp/academy.png" alt="메인광고이미지3" height="28px" width="28px">
+	                <h6 th:text="${classDto.aname}"></h6>
+	            </div>
+	            
+                <div class="detailClass_className">
+                	<h2 th:text="${classDto.name}"></h2>
+            	</div>
+            	<div class="detailClass_category">
+       				<div class="detailClass_category01">분 야</div>
+			        <div class ="detailClas_Ccategory" th:text = "${classDto.category}"></div>
+            	</div>
+       			<div class="detailClass_score">
+       				<div class="detailClass_score01">강의후기</div>
+					<div class="star-rating">
+       					<span th:style="|width: ${classDto.score*20}%|"></span>
+	    			</div>
+       				<div class="rating" th:text="${'/ ' + #numbers.formatDecimal(classDto.score, 1, 2)}"></div>
+            	</div>
+        	    <div class="detailClass_price">
+       				<div class="detailClass_price01">강의가격</div>
+       				<div class="detailClass_price02" th:text="${'월 ' + #numbers.formatInteger(classDto.price, 0,'COMMA') + '원'}" style="font-size: 24px;"></div>
+            	</div>
+         	    <div class="detailClass_period">
+       				<div class="detailClass_period01">강의일자</div>
+       				<div class ="detailClas_Cperiod" th:text = "${classDto.startperiod + ' ~ '}"></div>
+			        <div class =" detailClas_Cperiod" th:text = "${classDto.endperiod}"></div>
+            	</div>
+            	<hr>
+         	    <div class="detailClass_inquire">
+					<button class="detailClass_inquire01">강좌문의</button>
+					<div class="detailClass_inquire02">강좌관련 문의는 강좌문의 버튼을 이용해주세요.</div>
+            	</div>
+            	<hr>
+           		<div class="detailClass_backToList">
+           			<a th:href="@{'/claco/search?keyword=&arr_location='}">
+		    			<button class="detailClass_backToList01">다른 강좌 둘러보기</button>
+		    		</a>		
+            	</div>
+	        </div>
+	        
+	        <hr>
+	    	<!-- //상세정보 탭 -->
+    	</div>
+		<!-- 상세정보 탭 -->
+	    <div class="detail_info">
+	        <ul class="tabs">
+	            <li class="tab-link current" data-tab="tab-1">강의소개</li>
+	            <li class="tab-link" data-tab="tab-2">학원정보</li>
+	            <li class="tab-link" data-tab="tab-3">강의후기</li>
+	        </ul>
+	        <!-- 강의소개 -->
+	        <div id="tab-1" class="tab-content current">
+	            <p th:text="${classDto.info}"></p>
+	        </div>
+	        <!-- //강의소개 -->
+	        <!-- 학원정보 -->
+	        <div id="tab-2" class="tab-content">
+	        	<div class="academy_info" style="border: 3px solid lightgray;">
+		        	<ul class="academy_list" style="padding: 30px;">
+		        		<li>
+		        			<div class="academy_info_header" style="margin-bottom: 50px;">
+			        			<div class ="academyinfo_aname" th:text="${classDto.aname}"></div>
+			        			<div class="academyinfo_agrade">
+			        				<div th:if ="${classDto.agrade} >= 4000">
+										<img src = "/img/temp/마스터.png" alt="메달이미지" width=25px; height=25px;>
+					          		</div>
+					          		<div th:if ="${classDto.agrade} >= 3000 and ${classDto.agrade} < 4000">
+					          			<img src = "/img/temp/플래티넘.png" alt="메달이미지" width=25px; height=25px;>
+					          		</div>
+					          		<div th:if ="${classDto.agrade} >= 2000 and ${classDto.agrade} < 3000">
+					          			<img src = "/img/temp/골드.png" alt="메달이미지" width=25px; height=25px;>
+					          		</div>
+					          		<div th:if ="${classDto.agrade} >= 1000 and ${classDto.agrade} < 2000">
+					          			<img src = "/img/temp/실버.png" alt="메달이미지" width=25px; height=25px;>
+					          		</div>
+					          		<div th:if ="${classDto.agrade} >= 0 and ${classDto.agrade} < 1000">
+					          			<img src = "/img/temp/브론즈.png" alt="메달이미지" width=25px; height=25px;>
+					          		</div>
+			        			</div>
+			        			<div>
+			        				<span th:text="${classDto.ainfo}"></span>
+			        			</div>
+		        			</div>
+		        		</li>	
+		        		<li>
+		        			<div class="academy_info_detail">주소</div>
+		        			<span style="color:lightgray;"> | </span>
+		        			<span th:text="${classDto.aaddress}"></span>
+		        			<span th:text="${classDto.alocation}"></span>
+		        		</li>
+		        		<li>
+				        	<div class="academy_info_detail">전화번호</div>
+		        			<span style="color:lightgray;"> | </span>
+		        			<span th:text="${classDto.aphone}"></span>
+		        		</li>
+		        		<li>
+		        			<div class="academy_info_detail">이메일</div>
+		        			<span style="color:lightgray;"> | </span>
+		        			<span th:text="${classDto.aemail}"></span>
+		        		</li>
+		        		<li>
+		        			<div class="academy_info_detail">홈페이지</div>
+		        			<span style="color:lightgray;"> | </span>
+		        			<span th:text="${classDto.ahomepage}"></span>
+						</li>
+		        	</ul>
+	        	</div>
+	        </div>
+	        <!-- //학원정보 -->
+	        
+	        <!-- 강의후기 -->
+	        <div id="tab-3" class="tab-content">
+				<div th:if="${reviewCnt != 1}">
+    				<p>[[${#numbers.formatInteger(reviewCnt, 1)}]] Reviews</p>
+    			</div>
+			    <div th:unless="${reviewCnt != 1}">
+			    	<p>[[${#numbers.formatInteger(reviewCnt, 1)}]] Review</p>
+			    </div>
+			    <div class="review_detail" th:if="${reviewCnt} > 0">
+			    	<ul class="review_list">
+			    		<li th:each="rv : ${reviews}">
+			    			<div class="review_header">
+			    				<img class="review_header_img" src = "/img/temp/user.png" alt="유저이미지">
+			    				<div class="review_header_contens">
+				    				<div class="review_header_mid" th:text="${rv.mid}"></div>
+				    				<div class="review_header_date" th:text="${#temporals.format(rv.createdDate, 'yyyy-MM-dd HH:mm')}"></div>			    			
+			    				</div>
+						    	<span class="review_button" th:if="${rv.mid.toString().equals(loginUser)}">
+			    					<a type="button" th:onclick="'main.reviewDelete(' + ${classDto.cindex}+ ',' + ${rv.rvindex}+ ');'">삭제</a>
+			    				</span>
+  								<div class="review_button" th:if="${isLogin} and !${rv.mid.toString().equals(loginUser)}">
+									<form th:action="@{'/claco/post/' + ${classDto.cindex} + '/report/' + ${rv.rvindex}}" method="post">
+										<input type="hidden" name="_method" value="put" /> 
+										<button type="submit">신고</button>
+									</form>
+								</div>
+			    			</div>
+		    				<div class="review_score">
+								<div class="star-rating">
+			       					<span th:style="|width: ${rv.score*20}%|"></span>
+				    			</div>
+				    			<div class="rating" th:text="${'/ ' + #numbers.formatDecimal(rv.score, 1, 2)}"></div>
+		    				</div>
+			    			<div class="review_contents" th:text="${rv.contents}"></div>
+
+			    		</li>
+			    	</ul>
+			    </div>
+			    <div class="review_registration">
+			    	<div th:if="${isLogin} and !${isWriter}">
+				    	<form>
+					    	<input type="hidden" id="classid" th:value="${classDto.cindex}">
+					    	<input type="hidden" id="status" value="limited">
+					    	
+					    	<!--  <input type="text" id="score" placeholder="평점을 입력하세요.">-->
+					    	<input type="hidden" name="point" id="score" />
+					    	<div class=star_rating_review_wrap>
+					    		<div class="star_rating_review space-x-4 mx-auto">
+							        <input class="star" type="radio" id="5-stars" name="rating" value="5" v-model="ratings"/>
+							        <label for="5-stars" class="star pr-4">★</label>
+							        <input class="star" type="radio" id="4-stars" name="rating" value="4" v-model="ratings"/>
+							        <label for="4-stars" class="star">★</label>
+							        <input class="star"type="radio" id="3-stars" name="rating" value="3" v-model="ratings"/>
+							        <label for="3-stars" class="star">★</label>
+							        <input class="star"type="radio" id="2-stars" name="rating" value="2" v-model="ratings"/>
+							        <label for="2-stars" class="star">★</label>
+							        <input class="star" type="radio" id="1-star" name="rating" value="1" v-model="ratings" />
+							        <label for="1-star" class="star">★</label>
+						    	</div>
+						    	<div class="star_rating_review01">별점을 입력해주세요.</div>
+					    	</div>
+						    
+					    	<div class="review_wrap_box" onkeydown="resize(this)" onkeyup="resize(this)">
+					    		<div th:text="${loginUser}" style="margin-left: 10px;"></div>
+					    		<!-- <div th:text="${memberDto.name}" style="margin-left: 10px;"></div>  -->
+					    		<textarea class="review_box col-auto form-control" type="text" id="contents" onkeydown="resize(this)" onkeyup="resize(this)"
+					    			placeholder="좋은 수강평을 남겨주시면 claco에 큰 힘이 됩니다! &#10;해당 후기가 부적절하게 이용되는 것을 방지하기 위해 심의를 거친 후 등록됩니다. 이점 양해 부탁드립니다 :)"></textarea>
+					    		<button type="button" id="btn-review-save" onclick='click_registration()'>등록</button>
+					    	</div>
+				    	</form>
+			    	</div>
+			    	<div class="login_review" th:unless="${isLogin}">
+			    		<a th:href="@{'/user/login/'}"><button >로그인하고 수강후기 쓰러가기</button></a>
+			    	</div>
+			    </div>
+	        </div>
+	    </div>
+	    <!-- //강의후기 -->
+
+	    <!-- 변수 선언 방식 : ~~~ /*<![CDATA[*/ ~~~ /*]]>*/-->
+	    <script th:inline="javascript">
+	        /*<![CDATA[*/
+	        var classDto = /*[[${classDto}]]*/"";
+	        /*]]>*/
+	    </script>
+	    
+	    <!-- ajax 사용을 위한 js -->
+	    <script th:inline="javascript" th:src="@{/js/ajaxSettingReview.js}"></script>
+	     <!-- bootStrap js-->
+	    <script type="text/javascript" src="/js/slideShow.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        
+       	<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+	    <script th:inline="javascript" th:src="@{/js/detailClass.js}"></script>
+    </div>
+</body>
+</html>

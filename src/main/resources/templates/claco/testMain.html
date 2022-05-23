@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+   <script src="/js/scriptTest.js" type="text/javascript"></script>
+   <meta charset="utf-8"  />
+   <title>mainTest</title>
+   <style>
+    *
+    {
+        margin: 0;
+        padding: 0;
+    }
+    .wrap{
+        width: 300px;
+        height: 400px;
+        background-color: aqua;
+        border: 1px solid;
+        display: inline-block;
+    }
+
+    div .img
+    {
+        height: 240px;
+        width: 100%;
+        overflow: hidden;
+
+    }
+    
+    div .img img
+    {
+        height: 100%;
+
+    }
+
+    div .c_name
+    {
+        width: 100%;
+        height: 40px;
+    }
+
+    div .c_name h2
+    {
+        height: 40px;
+        line-height: 40px;
+    }
+
+    div .c_info,.c_info2,.c_info3
+    {
+        width: 100%;
+        height: 40px;
+    }
+    .c_period
+    {
+        width: 140px;
+        height: 40px;
+        display: inline-block;
+    }
+    .c_score
+    {
+        width: 140px;
+        height: 40px;
+        display: inline-block;
+    }
+    
+    .c_price
+    {
+        width: 100px;
+        height: 40px;
+        display: inline-block;
+    }
+    .name
+    {
+        width: 100px;
+        height: 40px;
+        display: inline-block;
+    }
+    .medal
+    {
+        width: 50px;
+        height: 40px;
+        display: inline-block;
+    }
+
+	.card_wrapper
+    {
+      width: 500px;
+      height: 200px;
+      border: 1px solid;
+    }
+
+    .card_content
+    {
+      height: 100%;
+      width: 100%;
+    }
+
+    .card_header
+    {
+      width: 100%;
+      height: 60px;
+      border: 1px solid;
+    }
+
+    .card_header_profile
+    {
+      border: 1px solid blue;
+    }
+
+    .card_header_profile_info_name
+    {
+      width: 60px;
+      display: inline-block;
+    }
+
+    .card_header_profile_info_date
+    {
+      width: 100px;
+      display: inline-block;
+    }
+
+    .card_academy
+    {
+      width: 100%;
+      height: 30px;
+      border: 1px solid red;
+    }
+
+    .card_academy_info_logo
+    {
+      width:30px;
+      height: 30px;
+      display: inline-block;
+      overflow: hidden;
+    }
+
+    .card_academy_info_name
+    {
+      display: inline-block;
+    }
+    </style>
+</head>
+<body>
+	<!-- 추천강의  -->
+	<h1><a href="#">추천강의</a></h1>
+	<div class ="wrap" th:each="class : ${listClass}" style="cursor:pointer" onclick="location.href='#'">
+		<div class ="img" th:each = "imagefile : ${listImg}" th:if ="${class.iindex == imagefile.iindex}">
+			<img th:src = "@{/img/} + ${imagefile.name} +.jpg" alt="이미지" >
+			<div th:text ="${imagefile.iindex}"></div>
+		</div>
+	<div class = "c_name" ><h2 th:text = "${class.name}"></h2></div>
+	<div class = "c_info"><p th:text = "${class.category}"></p></div>
+	<div class = "c_info2">
+		<div class="c_period">
+			<div th:text = "${class.startperiod}"></div>
+          	<div th:text = "${class.endperiod}"></div>
+		</div>
+		<div class="c_score" th:text = "${#numbers.formatDecimal(class.score, 1, 2)}">평점</div>
+	</div>
+	<div class = "c_info3">
+		<div class="c_price" th:text = "${#numbers.formatInteger(class.price, 1)}">가격</div>
+			<div class="name" th:text = "${class.aname}">학원이름</div>
+			<div class="medal" >
+				<div th:if ="${class.agrade} >= 4000">
+					<div>마스터</div>
+          		</div>
+          		<div th:if ="${class.agrade} >= 3000 and ${class.agrade} < 4000">
+          			<div>플래티넘</div>
+          		</div>
+          		<div th:if ="${class.agrade} >= 2000 and ${class.agrade} < 3000">
+          			<div>골드</div>
+          		</div>
+          		<div th:if ="${class.agrade} >= 1000 and ${class.agrade} < 2000">
+          			<div>실버</div>
+          		</div>
+          		<div th:if ="${class.agrade} >= 0 and ${class.agrade} < 1000">
+          			<div>브론즈</div>
+          		</div>
+			</div>
+		</div>
+	</div>
+	<!-- main - 수강후기 -->
+	<div class="card_wrapper" th:each = "review : ${listReview}">
+		<div class="card__inner" >
+			<div class="card__content">
+				<div class="card_header">
+					<div class ="card_header_profile">
+						<div class ="card_header_profile_info_name" th:text ="${review.mid}"></div>
+						<div class ="card_header_profile_info_date" th:text ="${#temporals.format(review.createdDate, 'yyyy-MM-dd HH:mm')}"></div>
+					</div>
+					<div class="card_header_rating">
+						<span class = "ration_count" th:text = "${#numbers.formatDecimal(review.score, 1, 2)}"></span>
+					</div>
+				</div>
+				<div class="card_academy">
+				<!-- 
+					<div class="card_academy_info" th:each ="imagefile : ${listImg}" th:if ="${class.iindex} == ${imagefile.iindex}">
+						<div class="card_academy_info_logo"><img th:src = "@{/img/} + ${imagefile.name} +.jpg" alt="학원로고"></div>
+						<div class="card_academy_info_name"><a href="#" th:text = "${review.cname}"></a></div>
+					</div>
+					-->
+					<div class="card_academy_info_name"><a href="#" th:text = "${review.cname}"></a></div>
+				</div>
+				<div class="card_content" th:text = "${review.contents}"></div>
+			</div>
+		</div>
+	</div>
+</body>

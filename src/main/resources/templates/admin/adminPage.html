@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자</title>
+    <style>
+    	li {
+    		list-style:none;
+    	}
+    </style>
+</head>
+<body style="text-align:center">
+<div layout:fragment="content">
+    <h1>관리자 페이지입니다.</h1>
+    <hr>
+    
+    <ul>
+		<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/userManagePage}">회원관리</a></li>
+		<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/articleManagePage}">게시글관리</a></li>
+		<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/admin/authPage}">권한관리</a></li> 
+    </ul>
+</div>
+</body>
+</html>

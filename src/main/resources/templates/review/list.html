@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 목록</title>
+    <link rel="stylesheet" href="/css/review.css">
+    <script>
+        
+    </script>
+</head>
+<body>
+
+	<!-- layout -->
+    <div layout:fragment="content">
+	    <!-- Body -->
+		<!--  
+		<div class="card_wrapper" th:each = "review : ${listReview}" th:if="${review.status} == 'approval'">
+			<div class="card__inner" >
+				<div class="card__content">
+					<div class="card_header">
+						<div class ="card_header_profile">
+							<div class ="card_header_profile_info_name" th:text ="${review.mid}"></div>
+							<div class ="card_header_profile_info_date" th:text ="${#temporals.format(review.createdDate, 'yyyy-MM-dd HH:mm')}"></div>
+						</div>
+						<div class="card_header_rating">
+							<span class = "ration_count" th:text = "${#numbers.formatDecimal(review.score, 1, 2)}"></span>
+						</div>
+					</div>
+					<div class="card_academy">
+						<div class="card_academy_info_name"><a th:href="@{'/claco/post/' + ${review.cindex}}" th:text = "${review.cname}"></a></div>
+					</div>
+					<div class="card_content" th:text = "${review.contents}"></div>
+				</div>
+			</div>
+		</div>
+    </div>
+    -->
+    <div class="card_wrapper" >
+    	<h1 style="font-size: 30px; margin-bottom: 30px; text-align: center;">수강후기</h1>
+    	<div style="margin:auto;">
+    		<ul class="review_list" th:each = "review : ${listReview}" th:if="${review.status} == 'approval'">
+    		<li>
+    			<div class="review_header">
+    				<img class="review_header_img" src = "/img/temp/user.png" alt="유저이미지">
+    				<div class="review_header_contens">
+	    				<div class="review_header_mid" th:text ="${review.mid}"></div>
+	    				<div class="review_header_date" th:text ="${#temporals.format(review.createdDate, 'yyyy-MM-dd HH:mm')}"></div>			    			
+    				</div>
+    			</div>
+    			<div class="review_academy_info_name"><a th:href="@{'/claco/post/' + ${review.cindex}}" th:text = "${review.cname}"></a></div>
+   				<div class="review_score">
+					<div class="star-rating">
+       					<span th:style="|width: ${review.score*20}%|"></span>
+	    			</div>
+	    			<div class="rating" th:text="${'/ ' + #numbers.formatDecimal(review.score, 1, 2)}"></div>
+   				</div>
+    			<div class="review_contents" th:text="${review.contents}"></div>
+    		</li>
+    	</ul>
+    	</div>
+    	
+	</div>
+</body>
+</html>

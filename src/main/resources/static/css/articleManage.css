@@ -1,0 +1,77 @@
+*
+{
+	margin: 0;
+	padding: 0;
+}
+h1
+{
+	margin-top: 50px;
+}
+h2
+{
+	font-size: 16px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+ th, td {
+    border-bottom: 1px solid lightgray;
+    padding: 10px;
+  }
+.wrap
+{
+	width: 1300px;
+	margin: 0 auto;
+	margin-bottom: 100px;
+}
+.report_tab
+{
+	padding: 10px;
+	background: rgb(240, 240, 240);
+}
+
+#tab-1 table,#tab-2 table,#tab-3 table
+{
+	margin-top: 50px;
+	margin-bottom: 50px;
+	border-top: 1px solid lightgray;
+}
+
+ul.tabs{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+
+ul.tabs li{
+  display: inline-block;
+	background: #898989;
+	color: white;
+	padding: 10px 15px;
+	cursor: pointer;
+}
+
+ul.tabs li.current{
+	background: rgb(240, 240, 240);
+	color: #222;
+}
+
+.tab-content{
+	margin: 10px;
+  	display: none;
+  	border-radius: 10px;
+	background: #fff;
+	padding: 12px;
+}
+
+.tab-content.current{
+	display: inherit;
+}
+
+.delete
+{
+	border:0px;
+	width: 60px;
+	height: 40px;
+	color: rgb(201, 79, 79);
+	background-color: #fff;
+}

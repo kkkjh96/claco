@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+	<meta charset="UTF-8">
+	<title>나의 글 목록</title>
+	<link th:href="@{/css/mypage.css}" rel="stylesheet" type="text/css">
+	
+</head>
+
+<body style="text-align:center">
+<div layout:fragment="content" id="wrap2">
+	<div th:replace="fragments/sidebar::sidebar"></div>
+
+	<div id="contents">
+	
+		<!-- 상세정보 탭 -->
+	    <div class="user_ArticleList">
+	        <ul class="tabs">        	
+	            <li class="tab-link current" data-tab="tab-1">작성한 글</li>
+	            <li class="tab-link" data-tab="tab-2">작성한 댓글</li>
+	            <li sec:authorize="hasRole('ROLE_MEMBER')" class="tab-link" data-tab="tab-3">작성한 수강후기</li>
+	            <li	sec:authorize="hasRole('ROLE_ADMIN')" class="tab-link" data-tab="tab-4">공지사항 관리</li>
+	        </ul>
+	        
+	        <!-- 유저가 작성한 글 -->
+	        <div id="tab-1" class="tab-content current">
+			   <h1>작성한 글</h1>
+			   <table>
+			        <thead>
+			            <!-- 게시판 분류-->
+			            <tr>
+			            	<th style="width:10%">번호</th>
+			                <th style="width:50%">제목</th>
+			                <th style="width:20%">작성일</th>
+			                <th style="width:20%">조회수</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			        <!-- Contents -->
+			        <!-- 반복문으로 게시판 글을 반복해서 보여줌-->
+				    	<tr th:each="freeboard : ${freeboardList}">
+				    		<td>
+								<span th:text="${freeboard.fbindex}"></span>
+							</td>
+				            <td>
+					            <a th:href="@{'/freeboard/post/' + ${freeboard.fbindex}}">
+					                <span th:text="${freeboard.title}"></span>
+					            </a>
+				            </td>
+				            <td>
+				                <span th:text="${#temporals.format(freeboard.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+				            </td>
+				            
+				            <td>
+				                <span th:text="${#numbers.formatInteger(freeboard.count, 1)}"></span>
+				            </td>
+				        </tr>
+			        </tbody>
+			    </table>
+	        </div>
+
+			<!-- 유저가 작성한 댓글 -->
+	        <div id="tab-2" class="tab-content">
+			   <h1>작성한 댓글</h1>
+			   <table>
+			        <thead>
+			            <!-- 게시판 분류-->
+			            <tr>
+			            	<th style="width:10%">번호</th> 
+			            	<th style="width:35%">게시글 제목</th>
+			                <th style="width:35%">댓글 내용</th>
+			                <th style="width:20%">작성일</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			        <!-- Contents -->
+			        <!-- 반복문으로 댓글을 반복해서 보여줌-->
+				    	<tr th:each="comment : ${commentList}">
+				    		<td>
+								<span th:text="${comment.fbindex}"></span>
+							</td>
+				            <td>
+					            <a th:href="@{'/freeboard/post/' + ${comment.fbindex}}">
+					                <span th:text="${comment.fbtitle}"></span>
+					            </a>
+				            </td>
+				            <td>
+				                <span th:text="${comment.comment}"></span>
+				            </td>
+				            
+				            <td>
+				                <span th:text="${#temporals.format(comment.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+				            </td>
+				        </tr>
+			        </tbody>
+			    </table>
+	        </div>
+			
+			<!-- 유저가 작성한 수강후기 -->
+	        <div id="tab-3" class="tab-content">
+	        	<div sec:authorize="hasRole('ROLE_MEMBER')">
+				   <h1>작성한 수강후기</h1>
+				   <table>
+				        <thead>
+				            <!-- 게시판 분류-->
+				            <tr>
+				            	<th style="width:30%">강의명</th>
+				                <th style="width:30%">수강후기</th>
+				                <th style="width:20%">평점</th>
+				                <th style="width:20%">작성일</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				        <!-- Contents -->
+				        <!-- 반복문으로 댓글을 반복해서 보여줌-->
+					    	<tr th:each="review : ${reviewList}">
+					            <td>
+						            <a th:href="@{'/claco/post/' + ${review.cindex}}">
+						                <span th:text="${review.cname}"></span>
+						            </a>
+					            </td>
+					            <td>
+					                <span th:text="${review.contents}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#numbers.formatDecimal(review.score, 1, 2)}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#temporals.format(review.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+					            </td>
+					        </tr>
+				        </tbody>
+				    </table>
+			    </div>
+	        </div>
+	        
+	         <!-- 공지사항관리(관리자전용) -->
+	         <div id="tab-4" class="tab-content">
+				<div sec:authorize="hasRole('ROLE_ADMIN')">
+				<h1>공지사항 관리</h1>
+				   <table>
+				        <thead>
+				            <!-- 게시판 분류-->
+				            <tr>
+				            	<th style="width:10%">번호</th>
+				                <th style="width:50%">제목</th>
+				                <th style="width:20%">작성일</th>
+				                <th style="width:20%">조회수</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				        <!-- Contents -->
+				        <!-- 반복문으로 게시판 글을 반복해서 보여줌-->
+					    	<tr th:each="alertboard : ${alertboardList}">
+					    		<td>
+									<span th:text="${alertboard.abindex}"></span>
+								</td>
+					            <td>
+						            <a th:href="@{'/alertboard/post/' + ${alertboard.abindex}}">
+						                <span th:text="${alertboard.title}"></span>
+						            </a>
+					            </td>
+					            <td>
+					                <span th:text="${#temporals.format(alertboard.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+					            </td>
+					            
+					            <td>
+					                <span th:text="${#numbers.formatInteger(alertboard.count, 1)}"></span>
+					            </td>
+					        </tr>
+				        </tbody>
+				    </table>
+				</div>
+			</div>
+	        
+	        
+	    </div>
+	    <!-- tap 끝 -->
+	   
+		
+		    
+
+			<!-- 탭 페이지전환 js -->
+			<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+			<script th:inline="javascript" th:src="@{/js/mypage.js}"></script>
+    	</div>
+		<!-- content 끝 -->
+
+		
+		
+</div>
+</body>
+</html>

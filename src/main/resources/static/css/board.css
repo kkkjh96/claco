@@ -1,0 +1,45 @@
+.btn {
+	border : 3px solid black;
+	background-color : black;
+	color : white;
+	cursor : pointer;
+}
+
+.btn:hover {
+	background-color : white;
+	color : black;
+}
+
+a {
+		text-decoration-line:none;
+		color: inherit;
+}
+.currentPage {
+		color: red;
+}
+
+.paging
+	{
+		font-size: 25px;
+		margin-bottom: 20px;
+		
+	}
+	.paging span a:hover{
+		color: blue;
+		text-decoration: none;
+	}
+   	.currentPage {
+		color: red;
+	}
+	
+	.list {
+		width : 100%;
+	}
+	
+	.list li {
+		list-style: none;
+	}
+	
+	.list *{
+		display: inline-block;
+	}

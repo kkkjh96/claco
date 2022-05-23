@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+	<meta charset="UTF-8">
+	<title>나의 강의목록 페이지</title>
+	<link th:href="@{/css/mypage.css}" rel="stylesheet" type="text/css">
+	<script th:src="@{/js/mypage.js}"></script>
+</head>
+
+<body style="text-align:center">
+<div layout:fragment="content" id="wrap2">
+		<div th:replace="fragments/sidebar::sidebar"></div>
+		<div id="contents">
+			<div id="userClassList">
+				   <h1>찜한 강의</h1>
+				   <table>
+				        <thead>
+				            <tr>
+				                <th style="width:20%">학원명</th>
+				                <th style="width:20%">강의명</th>
+				                <th style="width:10%">분야</th>
+				                <th style="width:10%">가격</th>
+				                <th style="width:10%">평점</th>
+				                <th style="width:15%">시작</th>
+				                <th style="width:15%">종료</th>
+				            </tr>
+				        </thead>
+				        <tbody>
+				        <!-- Contents -->
+				        <!-- 반복문으로 존재하는 강의 목록을 보여줌-->
+					    	<tr th:each="memberclass : ${memberClassList}">
+					            <td>
+						            <span th:text="${memberclass.aname}"></span>
+					            </td>
+					            <td>
+					            	<a th:href="@{'/claco/post/' + ${memberclass.cindex}}" >
+					                	<span th:text="${memberclass.cname}"></span>
+					                </a>
+					            </td>
+					            <td>
+					                <span th:text="${memberclass.ccategory}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#numbers.formatInteger(memberclass.cprice, 1)}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${#numbers.formatDecimal(memberclass.cscore, 1, 2)}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${memberclass.cstartperiod}"></span>
+					            </td>
+					            <td>
+					                <span th:text="${memberclass.cendperiod}"></span>
+					            </td>
+					        </tr>
+				        </tbody>
+				    </table>
+			</div>
+		</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+	<link th:href="@{/css/mypage.css}" rel="stylesheet" type="text/css">
+	<script th:src="@{/js/mypage.js}"></script>
+</head>
+
+<body style="text-align:center">
+<div layout:fragment="content" id="wrap2">
+	<div th:replace="fragments/sidebar::sidebar"></div>
+	<div id="contents">
+		    <h1> 마이페이지 </h1>
+		    
+		    <h2 class="welcome">어서오세요  <span sec:authentication="name" style="color:blue"></span>님! </h2>
+	</div>
+</div>  
+</body>
+</html>

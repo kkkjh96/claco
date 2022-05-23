@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원 관리 페이지</title>
+<link rel="stylesheet" href="/css/userManage.css">
+</head>
+<body style="text-align:center">
+	<div layout:fragment="content">
+		<div class="container">
+			<h1> 모든 사용자 </h1>
+			<hr>
+			<table class="user_list">
+		        <thead>
+		            <!-- 게시판 분류-->
+		            <tr>
+		                <th style="width:15%">아이디</th>
+		                <th style="width:15%">이름</th>
+		                <th style="width:20%">전화번호</th>
+		                <th style="width:20%">이메일</th>
+		                <th style="width:15%">회원구분</th>
+		                <th style="width:15%"></th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		        <!-- Contents -->
+		        <!-- 반복문으로 게시판 글을 반복해서 보여줌-->
+			    	<tr th:each="member : ${memberList}">
+			            <td>
+			            	<img class="user_img" src="/img/temp/user.png" alt="유저이미지">
+				            <span th:text="${member.id}"></span>
+			            </td>
+			            <td>
+			                <span th:text="${member.name}"></span>
+			            </td>
+			            <td>
+			                <span th:text="${member.phone}"></span>
+			            </td>
+			            <td>
+			                <span th:text="${member.email}"></span>
+			            </td>
+			            <td th:if="${member.role} == 'ROLE_MEMBER'">
+			                <span>개인회원</span>
+			                <input type="hidden" class="count_member">
+			            </td>
+			            <td th:if="${member.role} == 'ROLE_COMPANY'">
+			                <span>기업회원</span>
+			                <input type="hidden" class="count_company">
+			            </td>
+			            <td th:if="${member.role} == 'ROLE_ADMIN'">
+			                <span style="color: rgb(103, 162, 218);">관리자</span>
+			                <input type="hidden" class="count_admin">
+			            </td>
+			            <td>
+			            	<form th:action="@{'/admin/member/post/' + ${member.mindex}}" method="post">
+			            		<input type="hidden" name="_method" value="delete" />
+			            		  <input type="hidden" name="mindex" th:value="${member.mindex}" />
+			            		<button class="member_delete" type="submit">삭제</button>
+			            	</form>
+			            </td>
+			        </tr>
+		        </tbody>
+		    </table>	
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+body {
+	text-align:center;	
+	margin-top: 230px;
+}
+
+input[type=radio]{
+    	display:none;
+    }
+
+/* 로그인 폼  */
+#input1 #input2 {
+	width: 180px; 
+	height:30px;
+}
+#input3 {
+	width: 180px; 
+	height:30px;
+	margin-top: 5%; 
+}
+
+#css_tabs > label {
+    display: inline-block;  
+    font-size: 15px;  
+    padding: 10px; 
+    text-align: center; 
+    width: 15%; 
+    line-height: 20px; 
+    font-weight: bold;  
+    border-radius: 5px; 
+    background: #eee;
+    color: #777;  
+    border: 1px solid #ccc;  
+    border-width: 1px 1px 0  
+}
+
+
+#css_tabs .tab1_content, #css_tabs .tab2_content {
+	padding: 55px;
+	border: 2px solid #ddd;
+
+	max-width: 800px;
+	margin: 0 auto; 
+ 
+	height:100%;
+}

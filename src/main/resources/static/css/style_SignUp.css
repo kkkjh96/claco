@@ -1,0 +1,147 @@
+body {
+	text-align:center;	
+	margin-top: 130px;
+}
+
+p.indent{ 
+    	padding-left: 1%
+    }
+    
+input[type=radio]{
+    	display:none;
+    }
+    
+#valid{
+    	color:red;
+    }
+
+
+#css_tabs input:nth-of-type(1):checked ~ div:nth-of-type(1), 
+#css_tabs input:nth-of-type(2):checked ~ div:nth-of-type(2){
+	display:none;
+}
+
+
+/* 기업회원 회원가입 */
+#company_id  {
+	width: 350px; 
+	height:30px;
+	margin-bottom: 3%;
+}
+#company_pwd  {
+	width: 350px; 
+	height:30px;	
+	margin-bottom: 3%;
+}
+#company_check  {
+	width: 350px; 
+	height:30px;
+	margin-bottom: 3%;
+}
+#company_name  {
+	width: 350px; 
+	height:30px;
+	margin-bottom: 3%;
+}
+#company_phone  {
+	width: 350px; 
+	height:30px;
+	margin-bottom: 3%;
+}
+#company_email  {
+	width: 350px; 
+	height:30px;
+	margin-bottom: 3%;
+}
+#company_submit  {
+	width: 350px; 
+	height:30px;
+	margin-bottom: 3%;
+}
+
+
+/* 일반회원 회원가입 */
+#member_id  {
+	width: 350px; 
+	height:30px;
+	margin-bottom: 3%;
+}
+#member_pwd  {
+	width: 350px; 
+	height:30px;
+	margin-bottom: 3%;
+}
+#member_check  {
+	width: 350px; 
+	height:30px;	
+	margin-bottom: 3%;
+}
+#member_name  {
+	width: 350px; 
+	height:30px;	
+	margin-bottom: 3%;
+}
+#member_phone {
+	width: 350px; 
+	height:30px;
+	margin-bottom: 3%;
+}
+#member_email  {
+	width: 350px; 
+	height:30px;
+	margin-bottom: 3%;
+}
+
+#member_submit  {
+	width: 350px; 
+	height: 40px;
+	margin-top: 5%; 
+	font-size: 15px;
+}
+
+
+/* �⺻ �� ��Ÿ�� ���� */
+#css_tabs > label {
+    display: inline-block; 
+    font-size: 15px;  
+    padding: 10px;  
+    text-align: center; 
+    width: 15%;
+    line-height: 20px; 
+    font-weight: bold;  
+    border-radius: 5px;  
+    background: #eee; 
+    color: #777;  
+    border: 1px solid #ccc; 
+    border-width: 1px 1px 0 
+}
+
+#css_tabs > label:hover {
+    cursor: pointer  
+}
+
+#css_tabs label[for=tab1] {
+    margin-left: 1.5em  
+}
+
+
+/* ����, Ŀ�� �ø� �� ��Ÿ�� ���� */
+#css_tabs input:nth-of-type(1):checked ~ label:nth-of-type(1), #css_tabs > label[for=tab1]:hover {
+	background: white; 
+	color:#000000  
+}
+
+#css_tabs input:nth-of-type(2):checked ~ label:nth-of-type(2), #css_tabs > label[for=tab2]:hover {
+	background: white;  
+	color:#000000 
+}
+
+
+/* ȸ������ ĭ <div> ��Ÿ�� ���� */
+#css_tabs .tab1_content, #css_tabs .tab2_content {
+	padding: 55px; 
+	border: 2px solid #ddd; 
+	max-width: 800px;
+	margin: 0 auto; 
+	height:100% 
+}

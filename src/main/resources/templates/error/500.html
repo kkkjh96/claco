@@ -1,0 +1,19 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>500 에러페이지</title>
+<link rel="stylesheet" type="text/css" th:href="@{/css/error.css}">
+</head>
+<body>
+	<h1>500 Error Page </h1>
+	<p class="zoom-area"> 내부 서버 오류입니다. </p>
+	<section class="error-container">
+	  <span>5</span>
+	  <span><span class="screen-reader-text">0</span></span>
+	  <span>0</span>
+	</section>
+	<div class="link-container">
+	  <a th:href="@{/}" class="more-link">메인으로</a>
+	</div>
+</body>
+</html>

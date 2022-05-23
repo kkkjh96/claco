@@ -1,0 +1,49 @@
+*
+{
+	margin:0;
+	padding:0;
+}
+
+ th, td {
+    border-bottom: 1px solid lightgray;
+    padding: 10px;
+  }
+
+.user_list_wrap
+{
+	width: 1300px;
+	margin: 0 auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+.user_list_wrap h1
+{
+	text-align: left;
+}
+
+.user_list
+{
+	
+	border-top: 1px solid lightgray;
+}
+
+.user_list_count
+{
+	margin-top: 50px;
+	text-align: left;
+	
+}
+.user_img
+{
+	display: lnline-block;
+	width: 30px;
+	height: 30px;
+}
+.member_delete
+{
+	border:0px;
+	width: 60px;
+	height: 40px;
+	color: rgb(201, 79, 79);
+	background-color: #fff;
+}
